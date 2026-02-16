@@ -9,5 +9,4 @@ public class VitrinaApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(VitrinaApiApplication.class, args);
 	}
-	String name = "Pedro";
 }
