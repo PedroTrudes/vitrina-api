@@ -18,4 +18,9 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
+    public void delete(Long id){
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario não localizado"));
+        userRepository.delete(user);
+    }
 }
