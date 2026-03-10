@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "stores")
+@Table(name = "stores", indexes = {@Index(name = "idx_store_public_id", columnList = "public_id")})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,9 +18,11 @@ import java.util.UUID;
 public class Store {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "public_id", unique = true, nullable = false, updatable = false)
+    private UUID publicId;
 
     @Column(nullable = false)
     private String name;
@@ -40,9 +42,11 @@ public class Store {
     @Column(nullable = false)
     private boolean active;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Integer plan;
+    private StorePlan plan;
 
+    @Column(updatable = false)
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -50,6 +54,7 @@ public class Store {
     public void onCreate(){
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+        this.plan = StorePlan.INITIAL;
     }
 
     @PreUpdate

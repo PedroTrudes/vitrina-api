@@ -3,10 +3,19 @@ package br.com.vitrina_api.modules.store.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
-
 @Entity
-@Table(name = "whatsapps")
+@Table(name = "whatsapps",
+        uniqueConstraints = {
+        @UniqueConstraint(
+                name = "uk_store_phone",
+                columnNames = {"store_id", "countryCode", "areaCode", "number"}
+        )},
+        indexes = {
+                @Index(name = "idx_whatsapp_store", columnList = "store_id")
+        }
+
+)
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,11 +24,23 @@ import java.util.UUID;
 public class NumberContact {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @Column(nullable = false)
+    private String countryCode;
+
+    @Column(nullable = false)
+    private String areaCode;
+
+    @Column(nullable = false)
     private String number;
+
+    @Column(nullable = false)
     private String agent;
+
+    @Column(nullable = false)
+    private boolean active;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id", nullable = false)

@@ -2,6 +2,7 @@ package br.com.vitrina_api.modules.user.service;
 
 import br.com.vitrina_api.modules.user.model.User;
 import br.com.vitrina_api.modules.user.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,8 +29,9 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void delete(UUID id){
-        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario não localizado"));
+    @Transactional
+    public void delete(UUID publicId){
+        User user = userRepository.findByPublicId(publicId).orElseThrow(() -> new RuntimeException("Usuario não localizado"));
         userRepository.delete(user);
     }
 }
