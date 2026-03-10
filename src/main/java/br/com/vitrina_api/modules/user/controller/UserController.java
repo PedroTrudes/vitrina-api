@@ -1,9 +1,8 @@
-package br.com.vitrina_api.controller;
+package br.com.vitrina_api.modules.user.controller;
 
-import br.com.vitrina_api.model.User;
-import br.com.vitrina_api.service.UserService;
+import br.com.vitrina_api.modules.user.model.User;
+import br.com.vitrina_api.modules.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +30,5 @@ public class UserController {
         userService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 
 }

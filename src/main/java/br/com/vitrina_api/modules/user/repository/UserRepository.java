@@ -1,6 +1,6 @@
-package br.com.vitrina_api.repository;
+package br.com.vitrina_api.modules.user.repository;
 
-import br.com.vitrina_api.model.User;
+import br.com.vitrina_api.modules.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

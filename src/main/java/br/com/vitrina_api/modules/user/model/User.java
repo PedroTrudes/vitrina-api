@@ -1,4 +1,4 @@
-package br.com.vitrina_api.model;
+package br.com.vitrina_api.modules.user.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,6 +38,8 @@ public class User {
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
     }
+
+
 
 
 }

@@ -1,8 +1,9 @@
-package br.com.vitrina_api.service;
+package br.com.vitrina_api.modules.user.service;
 
-import br.com.vitrina_api.model.User;
-import br.com.vitrina_api.repository.UserRepository;
+import br.com.vitrina_api.modules.user.model.User;
+import br.com.vitrina_api.modules.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService {
 
+    @Autowired
     private final UserRepository userRepository;
 
     public User create(User user) {

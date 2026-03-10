@@ -1,4 +1,4 @@
-package br.com.vitrina_api.model;
+package br.com.vitrina_api.modules.store.model;
 
 import jakarta.persistence.*;
 import lombok.*;
