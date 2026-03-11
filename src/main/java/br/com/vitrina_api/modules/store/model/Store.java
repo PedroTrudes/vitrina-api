@@ -55,6 +55,7 @@ public class Store {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.plan = StorePlan.INITIAL;
+        this.publicId = UUID.randomUUID();
     }
 
     @PreUpdate
