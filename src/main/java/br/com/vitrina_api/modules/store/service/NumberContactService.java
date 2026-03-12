@@ -1,5 +1,6 @@
 package br.com.vitrina_api.modules.store.service;
 
+import br.com.vitrina_api.modules.store.dto.UpdateNumberContactDTO;
 import br.com.vitrina_api.modules.store.model.NumberContact;
 import br.com.vitrina_api.modules.store.model.Store;
 import br.com.vitrina_api.modules.store.repository.NumberContactRepository;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -22,9 +24,7 @@ public class NumberContactService {
         Store store = storeRepository.findByPublicId(pulicId).orElseThrow(() -> new RuntimeException("Loja não localizada"));
 
         contact.setStore(store);
-        if(!contact.isActive()){
-            contact.setActive(true);
-        }
+        contact.setActive(true);
 
         return numberContactRepository.save(contact);
     }
@@ -43,5 +43,11 @@ public class NumberContactService {
         }
 
         numberContactRepository.delete(contact);
+    }
+
+    public NumberContact update(Long id, UUID publicId, UpdateNumberContactDTO dto){
+        NumberContact contact = numberContactRepository.findByIdAndStorePublicId(id, publicId).orElseThrow(() -> new RuntimeException("Contato não localizado na loja"));
+        contact.updateFrom(dto);
+        return numberContactRepository.save(contact);
     }
 }

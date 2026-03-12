@@ -1,8 +1,10 @@
 package br.com.vitrina_api.modules.store.model;
 
+import br.com.vitrina_api.modules.store.dto.UpdateNumberContactDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table(name = "whatsapps",
@@ -22,6 +24,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@DynamicUpdate
 public class NumberContact {
 
     @Id
@@ -41,11 +44,29 @@ public class NumberContact {
     private String agent;
 
     @Column(nullable = false)
-    private boolean active;
+    private Boolean active;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id", nullable = false)
     @JsonIgnore
     private Store store;
+
+    public void updateFrom (UpdateNumberContactDTO dto){
+        if(dto.countryCode() != null){
+            this.countryCode = dto.countryCode();
+        }
+        if(dto.areaCode() != null){
+            this.areaCode = dto.areaCode();
+        }
+        if(dto.number() != null){
+            this.number = dto.number();
+        }
+        if(dto.agent() != null){
+            this.agent = dto.agent();
+        }
+        if(dto.active() != null){
+            this.active = dto.active();
+        }
+    }
 
 }

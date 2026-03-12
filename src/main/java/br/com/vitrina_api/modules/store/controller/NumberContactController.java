@@ -1,5 +1,6 @@
 package br.com.vitrina_api.modules.store.controller;
 
+import br.com.vitrina_api.modules.store.dto.UpdateNumberContactDTO;
 import br.com.vitrina_api.modules.store.model.NumberContact;
 import br.com.vitrina_api.modules.store.service.NumberContactService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,6 @@ public class NumberContactController {
     public ResponseEntity<NumberContact> create(@PathVariable UUID publicId,
                                                 @RequestBody NumberContact contact){
         NumberContact saveContact = numberContactService.create(publicId, contact);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(saveContact);
     }
 
@@ -35,4 +35,11 @@ public class NumberContactController {
         numberContactService.delete(publicId, id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{publicId}/contacts/{id}")
+    public ResponseEntity<NumberContact> updateContactByStore(@PathVariable UUID publicId, @PathVariable Long id, @RequestBody UpdateNumberContactDTO dto){
+        NumberContact updateContact = numberContactService.update(id, publicId, dto);
+        return ResponseEntity.ok(updateContact);
+    }
+
 }
