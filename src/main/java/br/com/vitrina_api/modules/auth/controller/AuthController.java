@@ -1,5 +1,6 @@
 package br.com.vitrina_api.modules.auth.controller;
 
+import br.com.vitrina_api.modules.auth.dto.AuthResponseDTO;
 import br.com.vitrina_api.modules.auth.dto.LoginDTO;
 import br.com.vitrina_api.modules.auth.dto.RegisterDTO;
 import br.com.vitrina_api.modules.auth.service.AuthService;
@@ -27,9 +28,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody LoginDTO dto){
-        User user = authService.login(dto);
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO dto){
+        AuthResponseDTO responseDTO = authService.login(dto);
 
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(responseDTO);
     }
 }
