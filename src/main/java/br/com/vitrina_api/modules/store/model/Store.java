@@ -29,8 +29,7 @@ public class Store {
 
     @Column(nullable = false)
     private String slug;
-
-    @Column(nullable = false)
+    
     private String logoUrl;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -40,7 +39,7 @@ public class Store {
     private String email;
 
     @Column(nullable = false)
-    private boolean active;
+    private Boolean active;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -55,6 +54,7 @@ public class Store {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.plan = StorePlan.INITIAL;
+        this.active = true;
         this.publicId = UUID.randomUUID();
     }
 
