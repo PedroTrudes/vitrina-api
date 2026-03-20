@@ -3,6 +3,7 @@ package br.com.vitrina_api.modules.user.controller;
 import br.com.vitrina_api.modules.user.model.User;
 import br.com.vitrina_api.modules.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +17,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public User create(@RequestBody User user){
-        return userService.create(user);
+    public ResponseEntity<User> create(@RequestBody User user){
+        User createdUser = userService.create(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
     @GetMapping

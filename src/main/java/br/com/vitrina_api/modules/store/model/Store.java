@@ -1,5 +1,7 @@
 package br.com.vitrina_api.modules.store.model;
 
+import br.com.vitrina_api.modules.user.model.User;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,9 +34,6 @@ public class Store {
     
     private String logoUrl;
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<NumberContact> contacts = new ArrayList<>();
-
     @Column(nullable = false)
     private String email;
 
@@ -44,6 +43,14 @@ public class Store {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StorePlan plan;
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<NumberContact> contacts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<User> users = new ArrayList<>();
 
     @Column(updatable = false)
     private LocalDateTime createdAt;

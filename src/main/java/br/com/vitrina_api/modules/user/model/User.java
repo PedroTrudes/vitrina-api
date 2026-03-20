@@ -1,6 +1,7 @@
 package br.com.vitrina_api.modules.user.model;
 
 import br.com.vitrina_api.modules.store.model.Store;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,6 +39,7 @@ public class User {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
+    @JsonBackReference
     private Store store;
 
     @Column(nullable = false,updatable = false)
