@@ -24,7 +24,7 @@ public class StoreController {
     }
 
     @PostMapping()
-    public ResponseEntity<String> create(@RequestBody StoreDTO storeDTO, @AuthenticationPrincipal CustomUserDetails customUserDetails){
+    public ResponseEntity<Void> create(@RequestBody StoreDTO storeDTO, @AuthenticationPrincipal CustomUserDetails customUserDetails){
         UUID publicId = customUserDetails.getPublicId();
 
         Store store = new Store();
@@ -32,8 +32,8 @@ public class StoreController {
         store.setEmail(storeDTO.getEmail());
         store.setSlug(storeDTO.getSlug());;
 
-        Store createdStore = storeService.createStore(store, publicId);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Store registrada com sucesso");
+        storeService.createStore(store, publicId);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }
 
