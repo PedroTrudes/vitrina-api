@@ -24,7 +24,7 @@ public class StoreService {
     }
 
     @Transactional
-    public Store createStore(Store store, UUID ownerPublicId){
+    public Store createStore(Store store, UUID publicId){
         var storeExists = storeRepository.findByName(store.getName());
 
         if(storeExists.isPresent()){
@@ -32,7 +32,7 @@ public class StoreService {
         }
         Store savedStore = storeRepository.save(store);
 
-        User owner = userRepository.findByPublicId(ownerPublicId).orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
+        User owner = userRepository.findByPublicId(publicId).orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
 
         owner.setStore(savedStore);
         userRepository.save(owner);

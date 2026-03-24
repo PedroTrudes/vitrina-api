@@ -9,5 +9,4 @@ public class StoreDTO {
     private String name;
     private String slug;
     private String email;
-    private UUID ownerPublicId;
 }

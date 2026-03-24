@@ -36,6 +36,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String token = authHeader.substring(7);
         String email = jwtService.extractEmail(token);
+        String publicId = jwtService.extractPublicId(token);
+        System.out.println("Recebendo do JWT service: "+  email + "\nAgora meu publicID: "+ publicId);
 
         if(email != null && SecurityContextHolder.getContext().getAuthentication() == null){
 
