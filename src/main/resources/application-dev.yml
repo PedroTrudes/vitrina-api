@@ -9,3 +9,14 @@ spring:
     show-sql: true
     properties:
        hibernate:
+  mail:
+    host: sandbox.smtp.mailtrap.io
+    port: 587
+    username: ${MAIL_USERNAME:ac92eadba4e060}
+    password: ${MAIL_PASSWORD:884b3e44eb2347}
+    properties:
+      mail:
+       smtp:
+         auth: true
+         starttls:
+           enable: true
