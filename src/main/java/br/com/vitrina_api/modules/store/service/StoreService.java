@@ -43,11 +43,13 @@ public class StoreService {
 
     }
 
+    @Transactional
     public List<Store> findAll(){
         return storeRepository.findAll();
     }
 
 
+    @Transactional
     public Store findByPublicId(UUID publicId){
         return storeRepository.findByPublicId(publicId).orElseThrow(() -> new RuntimeException("Loja não encontrada"));
     }

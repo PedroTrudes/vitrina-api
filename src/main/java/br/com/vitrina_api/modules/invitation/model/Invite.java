@@ -25,7 +25,7 @@ public class Invite {
     @Column(nullable = false, unique = true)
     private String token;
 
-    @Column(name = "store_id",nullable = false)
+    @Column(name = "store_id", nullable = false)
     private UUID storeId;
 
     @Column(nullable = false)
@@ -40,7 +40,7 @@ public class Invite {
     private LocalDateTime expiresAt;
 
     @PrePersist
-    public void onCreate(){
+    public void onCreate() {
         LocalDateTime now = LocalDateTime.now();
         this.createdAt = now;
         this.expiresAt = now.plusDays(12);
