@@ -26,7 +26,8 @@ public class AuthService {
         User user = User.builder()
                 .name(dto.name())
                 .email(dto.email())
-                .password(passwordEncoder.encode(dto.password())).role(UserRole.ADMIN)
+                .password(passwordEncoder.encode(dto.password()))
+                .role(UserRole.ADMIN)
                 .build();
 
         return userRepository.save(user);

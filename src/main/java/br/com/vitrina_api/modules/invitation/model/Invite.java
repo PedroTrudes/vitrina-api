@@ -1,5 +1,7 @@
 package br.com.vitrina_api.modules.invitation.model;
 
+import br.com.vitrina_api.modules.store.model.Store;
+import br.com.vitrina_api.modules.user.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,11 +27,13 @@ public class Invite {
     @Column(nullable = false, unique = true)
     private String token;
 
-    @Column(name = "store_id", nullable = false)
-    private UUID storeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
 
-    @Column(nullable = false)
-    private UUID createdUserId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_user_id", nullable = false)
+    private User createdBy;
 
     @Column(nullable = false)
     private Boolean active;
@@ -46,6 +50,7 @@ public class Invite {
         this.expiresAt = now.plusDays(12);
         this.active = true;
         this.publicId = UUID.randomUUID();
+
     }
 
 }

@@ -6,6 +6,7 @@ import br.com.vitrina_api.modules.invitation.service.InviteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,20 +18,10 @@ import java.util.UUID;
 public class InviteController {
     private final InviteService inviteService;
 
-    @PostMapping
-    public ResponseEntity<Invite> create(@RequestBody Invite invite){
-        Invite createInvite = inviteService.createInvite(invite);
+    @PostMapping("/store/{storePublicId}")
+    public ResponseEntity<Invite> create(@PathVariable UUID storePublicId){
+        Invite createInvite = inviteService.create(storePublicId);
         return ResponseEntity.status(HttpStatus.CREATED).body(createInvite);
     }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<List<Invite>> findAllByStoreId(@PathVariable UUID storeId){
-        List<Invite> invites = inviteService.findByStoreId(storeId);
-        if(invites.isEmpty()){
-            throw new RuntimeException("Não foi localizado convites");
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(invites);
-    }
-
 
 }
