@@ -31,13 +31,12 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO dto){
         AuthResponseDTO responseDTO = authService.login(dto);
-
         return ResponseEntity.ok(responseDTO);
     }
 
     @PostMapping("/register-with-invite")
-    public ResponseEntity<Void> RegisterWithInvite(@RequestBody RegisterDTO dto, @RequestParam String token){
-        inviteService.registerWithInvite(dto, token);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<User> RegisterWithInvite(@RequestBody RegisterDTO dto, @RequestParam String token){
+        User user = inviteService.registerWithInvite(dto, token);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 }

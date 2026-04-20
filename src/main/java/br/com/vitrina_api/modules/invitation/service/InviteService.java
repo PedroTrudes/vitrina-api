@@ -9,6 +9,8 @@ import br.com.vitrina_api.modules.user.model.User;
 import br.com.vitrina_api.modules.user.model.UserRole;
 import br.com.vitrina_api.modules.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -72,7 +74,7 @@ public class InviteService {
     }
 
     @Transactional
-    public void registerWithInvite(RegisterDTO dto, String token){
+    public User registerWithInvite(RegisterDTO dto, String token){
         Invite invite = validateInvite(token);
 
         if(userRepository.findByEmail(dto.email()).isPresent()){
@@ -87,7 +89,7 @@ public class InviteService {
                 .store(invite.getStore())
                 .build();
 
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
 }

@@ -24,4 +24,11 @@ public class InviteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createInvite);
     }
 
+    @GetMapping("/valid/{token}")
+    public ResponseEntity<Invite> validTokenInInvite(@PathVariable String token){
+        Invite invite = inviteService.validateInvite(token);
+        return ResponseEntity.status(HttpStatus.OK).body(invite);
+    }
+
+
 }
