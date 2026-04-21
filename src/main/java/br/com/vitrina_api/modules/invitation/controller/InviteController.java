@@ -1,5 +1,7 @@
 package br.com.vitrina_api.modules.invitation.controller;
 
+import br.com.vitrina_api.modules.invitation.dto.InviteResponse;
+import br.com.vitrina_api.modules.invitation.mapper.InviteMapper;
 import br.com.vitrina_api.modules.invitation.model.Invite;
 import br.com.vitrina_api.modules.invitation.repository.InviteRepository;
 import br.com.vitrina_api.modules.invitation.service.InviteService;
@@ -19,15 +21,15 @@ public class InviteController {
     private final InviteService inviteService;
 
     @PostMapping("/store/{storePublicId}")
-    public ResponseEntity<Invite> create(@PathVariable UUID storePublicId){
-        Invite createInvite = inviteService.create(storePublicId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createInvite);
+    public ResponseEntity<InviteResponse> create(@PathVariable UUID storePublicId){
+        Invite invite = inviteService.create(storePublicId);
+        return ResponseEntity.ok(InviteMapper.toResponse(invite));
     }
 
     @GetMapping("/valid/{token}")
-    public ResponseEntity<Invite> validTokenInInvite(@PathVariable String token){
+    public ResponseEntity<InviteResponse> validTokenInInvite(@PathVariable String token){
         Invite invite = inviteService.validateInvite(token);
-        return ResponseEntity.status(HttpStatus.OK).body(invite);
+        return ResponseEntity.ok(InviteMapper.toResponse(invite));
     }
 
 

@@ -8,6 +8,8 @@ import br.com.vitrina_api.modules.store.repository.StoreRepository;
 import br.com.vitrina_api.modules.user.model.User;
 import br.com.vitrina_api.modules.user.model.UserRole;
 import br.com.vitrina_api.modules.user.repository.UserRepository;
+import br.com.vitrina_api.shared.exception.BusinessException;
+import br.com.vitrina_api.shared.exception.ErrorCode;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +38,7 @@ public class InviteService {
 
     private User getAuthenticatedUser(){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Usuario não localizado"));
+        return userRepository.findByEmail(email).orElseThrow(() -> new BusinessException("Usuario não existe", ErrorCode.INVITE_NOT_FOUND));
     }
 
     private String generateUniqueToken(){
@@ -49,7 +51,7 @@ public class InviteService {
 
     @Transactional
     public Invite create(UUID storePublicId){
-        Store store = storeRepository.findByPublicId(storePublicId).orElseThrow(() -> new RuntimeException("Loja não encontrada"));
+        Store store = storeRepository.findByPublicId(storePublicId).orElseThrow(() -> new BusinessException("Loja não encontrada", ErrorCode.INVITE_NOT_FOUND));
 
         User user = getAuthenticatedUser();
 
@@ -60,14 +62,14 @@ public class InviteService {
 
 
     public Invite validateInvite(String token){
-        Invite invite = inviteRepository.findByToken(token).orElseThrow(() -> new RuntimeException("Convite invalido"));
+        Invite invite = inviteRepository.findByToken(token).orElseThrow(() -> new BusinessException("Convite não encontrado", ErrorCode.INVITE_NOT_FOUND));
 
         if(!invite.getActive()){
-            throw new RuntimeException("Convite não esta mais disponivel");
+            throw new BusinessException("Convite inativo", ErrorCode.INVITE_EXPIRED);
         }
 
         if(invite.getExpiresAt().isBefore(LocalDateTime.now())){
-            throw new RuntimeException("Convite expirado");
+            throw new BusinessException("Convite expirado", ErrorCode.INVITE_EXPIRED);
         }
 
         return invite;
