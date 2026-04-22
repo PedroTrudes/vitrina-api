@@ -19,6 +19,10 @@ public enum ErrorCode {
     //Store
     STORE_NOT_FOUND,
 
+    //ContactStore
+    CONTACT_NOT_FOUND,
+    CONTACT_INVALID,
+
     //Generico
     INTERNAL_ERROR
 }

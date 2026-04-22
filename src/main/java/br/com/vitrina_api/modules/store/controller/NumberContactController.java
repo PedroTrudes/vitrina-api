@@ -27,7 +27,7 @@ public class NumberContactController {
 
     @GetMapping("/{publicId}/contacts")
     public ResponseEntity<List<NumberContact>> getAllContactByStore(@PathVariable UUID publicId){
-        return ResponseEntity.ok(numberContactService.getAll(publicId));
+        return ResponseEntity.ok(numberContactService.getAllByPublicIdStore(publicId));
     }
 
     @DeleteMapping("/{publicId}/contacts/{id}")

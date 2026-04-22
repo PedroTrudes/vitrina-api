@@ -51,8 +51,8 @@ public class GlobalExceptionHandler {
 
     private HttpStatus resolveStatus(ErrorCode errorCode){
         return switch (errorCode){
-            case INVITE_NOT_FOUND, USER_NOT_FOUND, STORE_NOT_FOUND -> HttpStatus.NOT_FOUND;
-            case INVITE_EXPIRED, INVITE_INVALID -> HttpStatus.BAD_REQUEST;
+            case INVITE_NOT_FOUND, USER_NOT_FOUND, STORE_NOT_FOUND, CONTACT_NOT_FOUND -> HttpStatus.NOT_FOUND;
+            case INVITE_EXPIRED, INVITE_INVALID, CONTACT_INVALID -> HttpStatus.BAD_REQUEST;
 
             case INVALID_CREDENTIALS, UNAUTHORIZED -> HttpStatus.UNAUTHORIZED;
 
