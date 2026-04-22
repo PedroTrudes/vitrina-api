@@ -4,10 +4,12 @@ import br.com.vitrina_api.shared.dto.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -19,6 +21,21 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 ex.getErrorCode().name(),
                 status,
+                request);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex, HttpServletRequest request){
+        String message = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(err -> err.getField() + ": " + err.getDefaultMessage())
+                .collect(Collectors.joining(", "));
+
+        return buildResponse(
+                message,
+                ErrorCode.VALIDATION_ERROR.name(),
+                HttpStatus.BAD_REQUEST,
                 request);
     }
 
@@ -34,12 +51,14 @@ public class GlobalExceptionHandler {
 
     private HttpStatus resolveStatus(ErrorCode errorCode){
         return switch (errorCode){
-            case INVITE_NOT_FOUND -> HttpStatus.NOT_FOUND;
+            case INVITE_NOT_FOUND, USER_NOT_FOUND -> HttpStatus.NOT_FOUND;
             case INVITE_EXPIRED, INVITE_INVALID -> HttpStatus.BAD_REQUEST;
 
             case INVALID_CREDENTIALS, UNAUTHORIZED -> HttpStatus.UNAUTHORIZED;
 
             case VALIDATION_ERROR -> HttpStatus.BAD_REQUEST;
+
+            case EMAIL_ALREADY_EXISTS -> HttpStatus.CONFLICT;
 
             default -> HttpStatus.INTERNAL_SERVER_ERROR;
         };

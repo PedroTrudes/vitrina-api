@@ -6,6 +6,8 @@ import br.com.vitrina_api.modules.auth.dto.RegisterDTO;
 import br.com.vitrina_api.modules.user.model.User;
 import br.com.vitrina_api.modules.user.model.UserRole;
 import br.com.vitrina_api.modules.user.repository.UserRepository;
+import br.com.vitrina_api.shared.exception.BusinessException;
+import br.com.vitrina_api.shared.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,7 @@ public class AuthService {
 
     public User register(RegisterDTO dto){
         if(userRepository.findByEmail(dto.email()).isPresent()){
-            throw new RuntimeException("Email já cadastrado");
+            throw new BusinessException("Email já cadastrado", ErrorCode.EMAIL_ALREADY_EXISTS);
         }
 
         User user = User.builder()
@@ -34,10 +36,10 @@ public class AuthService {
     }
 
     public AuthResponseDTO login(LoginDTO dto){
-        User user = userRepository.findByEmail(dto.email()).orElseThrow(() -> new RuntimeException("Usuario não localizado"));
+        User user = userRepository.findByEmail(dto.email()).orElseThrow(() -> new BusinessException("Usuario não localizado", ErrorCode.INVALID_CREDENTIALS));
 
         if(!passwordEncoder.matches(dto.password(), user.getPassword())){
-            throw new RuntimeException("Senha invalida");
+            throw new BusinessException("Senha invalida", ErrorCode.INVALID_CREDENTIALS);
         }
 
         String token = jwtService.generateToken(user);

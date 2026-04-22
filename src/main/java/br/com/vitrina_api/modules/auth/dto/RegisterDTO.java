@@ -6,13 +6,14 @@ import jakarta.validation.constraints.NotBlank;
 
 public record RegisterDTO(
 
-        @NotBlank
+        @NotBlank(message = "Nome é obrigatorio")
         String name,
 
-        @Email
+        @Email(message = "Email inválido")
+        @NotBlank(message = "Email é obrigatorio")
         String email,
 
-        @NotBlank
+        @NotBlank(message = "Senha é obrigatoria")
         String password,
 
         UserRole role

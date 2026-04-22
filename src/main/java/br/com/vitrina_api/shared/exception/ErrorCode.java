@@ -1,6 +1,10 @@
 package br.com.vitrina_api.shared.exception;
 
 public enum ErrorCode {
+    //User
+    EMAIL_ALREADY_EXISTS,
+    USER_NOT_FOUND,
+
     //Invites
     INVITE_NOT_FOUND,
     INVITE_EXPIRED,
@@ -11,6 +15,7 @@ public enum ErrorCode {
     UNAUTHORIZED,
 
     VALIDATION_ERROR,
+
     //Generico
     INTERNAL_ERROR
 }
