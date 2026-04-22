@@ -32,11 +32,9 @@ public class JwtService {
                 .signWith(getKey()).compact();
 
     }
-//.claim("role", user.getRole())
 
     public String extractEmail(String token) {
         Claims claims = Jwts.parser().verifyWith(getKey()).build().parseSignedClaims(token).getPayload();
-        System.out.println("Meus Claims: "+ claims);
         return claims.getSubject();
     }
 

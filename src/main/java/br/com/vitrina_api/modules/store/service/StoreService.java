@@ -4,6 +4,8 @@ import br.com.vitrina_api.modules.store.model.Store;
 import br.com.vitrina_api.modules.store.repository.StoreRepository;
 import br.com.vitrina_api.modules.user.model.User;
 import br.com.vitrina_api.modules.user.repository.UserRepository;
+import br.com.vitrina_api.shared.exception.BusinessException;
+import br.com.vitrina_api.shared.exception.ErrorCode;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,7 +36,7 @@ public class StoreService {
         }
         Store savedStore = storeRepository.save(store);
 
-        User owner = userRepository.findByPublicId(publicId).orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
+        User owner = userRepository.findByPublicId(publicId).orElseThrow(() -> new BusinessException("Usuario não encontrado", ErrorCode.USER_NOT_FOUND));
 
         owner.setStore(savedStore);
         userRepository.save(owner);
@@ -51,6 +53,7 @@ public class StoreService {
 
     @Transactional
     public Store findByPublicId(UUID publicId){
-        return storeRepository.findByPublicId(publicId).orElseThrow(() -> new RuntimeException("Loja não encontrada"));
+        return storeRepository.findByPublicId(publicId).orElseThrow(
+                () -> new BusinessException("Loja não encontrada", ErrorCode.STORE_NOT_FOUND));
     }
 }

@@ -4,6 +4,7 @@ import br.com.vitrina_api.modules.auth.model.CustomUserDetails;
 import br.com.vitrina_api.modules.store.dto.StoreDTO;
 import br.com.vitrina_api.modules.store.model.Store;
 import br.com.vitrina_api.modules.store.service.StoreService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,7 +25,7 @@ public class StoreController {
     }
 
     @PostMapping()
-    public ResponseEntity<Void> create(@RequestBody StoreDTO storeDTO, @AuthenticationPrincipal CustomUserDetails customUserDetails){
+    public ResponseEntity<Void> create(@Valid @RequestBody StoreDTO storeDTO, @AuthenticationPrincipal CustomUserDetails customUserDetails){
         UUID publicId = customUserDetails.getPublicId();
 
         Store store = new Store();

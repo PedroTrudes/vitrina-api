@@ -16,6 +16,9 @@ public enum ErrorCode {
 
     VALIDATION_ERROR,
 
+    //Store
+    STORE_NOT_FOUND,
+
     //Generico
     INTERNAL_ERROR
 }
